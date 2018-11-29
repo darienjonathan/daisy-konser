@@ -1,0 +1,84 @@
+/* override default */
+body {
+  margin: 0;
+}
+
+/* wrapper */
+.wrapper {
+  background-color: black;
+}
+.wrapper--pre-click {
+  height: 100vh;
+}
+.wrapper--post-click {
+  height: calc(14*100vh);
+}
+
+/* box */
+.box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+
+  height: 100vh;
+  width: 100vw;
+
+  position: fixed;
+
+  background-color: black;
+
+  box-sizing: border-box;
+
+  opacity: 0;
+  transition: opacity 0.5s linear;
+
+  font-size: 1.1rem;
+}
+
+.box__content {
+  color: turquoise;
+  background-color: white;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+
+  height: 30vh;
+}
+
+/* prompt */
+.box--prompt {
+  opacity: 1;
+}
+.box--prompt-button {
+  z-index: 1;
+}
+.prompt-button {
+  color: blue;
+  border: 1px solid turquoise;
+  cursor: crosshair;
+}
+
+.prompt--fadeOut {
+  transition: opacity 0.5s linear, visibility 0.5s linear;
+  opacity: 0;
+  visibility: hidden;
+}
+.prompt--fadeIn {
+  transition: opacity 0.5s linear, visibility 0.5s linear;
+  opacity: 1;
+}
+
+.box--closing {
+  font-size: 1rem;
+}
+
+.content__video {
+  width: 80vw;
+}
+
+.content__kanji {
+  font-size: 1rem;
+}
