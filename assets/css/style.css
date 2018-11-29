@@ -5,7 +5,7 @@ body {
 
 /* wrapper */
 .wrapper {
-  background-color: black;
+  background-color: white;
 }
 .wrapper--pre-click {
   height: 100vh;
@@ -26,7 +26,7 @@ body {
 
   position: fixed;
 
-  background-color: black;
+  background-color: white;
 
   box-sizing: border-box;
 
@@ -38,7 +38,6 @@ body {
 
 .box__content {
   color: turquoise;
-  background-color: white;
 
   display: flex;
   flex-direction: column;
