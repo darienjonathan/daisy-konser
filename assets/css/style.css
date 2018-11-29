@@ -34,13 +34,13 @@ body {
   text-align: center;
 
   width: 100vw;
-  height: 500px;
+  height: 550px;
 
   position: fixed;
   top: 50%;
   transform: translateY(-50%);
 
-  background-color: rgba(255,255,255,0.75);
+  background-color: rgba(255,255,255,0.85);
 
   box-sizing: border-box;
 
@@ -58,7 +58,7 @@ body {
   justify-content: space-around;
   align-items: center;
 
-  height: 500px;
+  height: 550px;
 }
 
 /* prompt */
