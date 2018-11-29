@@ -16,7 +16,7 @@ const scroll = () => {
   const elementInterval = 2;
   const yPos = window.pageYOffset;
   const height = window.innerHeight;
-  const calcOpacity = maxOpacityPos => -1*(yPos - (maxOpacityPos - 1)*height)*(yPos - (maxOpacityPos - 1)*height - 2*height)/(height*height*0.9); //max opacity in maxOpacityPos
+  const calcOpacity = maxOpacityPos => -1*(yPos - (maxOpacityPos - 1)*height)*(yPos - (maxOpacityPos - 1)*height - 2*height)/(height*height*0.7); //max opacity in maxOpacityPos
   let elementOpacity = {
     prompt: calcOpacity(0),
     daisy: calcOpacity(baseHeightMultiplier),
