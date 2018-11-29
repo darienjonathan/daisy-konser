@@ -6,7 +6,7 @@ $(document).ready(function(){
 
 const promptClick = () => {
   $(".wrapper").removeClass("wrapper--pre-click").addClass("wrapper--post-click");
-  $(".content__video").get().forEach(vid => vid.play());
+  $(".content__video").get().forEach(vid => vid.muted = false);
   $(".box--prompt-button").addClass("prompt--fadeOut");
   setTimeout(() => $(".box--prompt-scroll").addClass("prompt--fadeIn"), 500);
 };
