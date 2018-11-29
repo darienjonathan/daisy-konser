@@ -5,7 +5,10 @@ body {
 
 /* wrapper */
 .wrapper {
-  background-color: white;
+  background-image: url('../img/bg_icon.JPG');
+  background-repeat: repeat;
+  background-size: 55px 55px;
+  background-attachment: fixed;
 }
 .wrapper--pre-click {
   height: 100vh;
@@ -21,10 +24,12 @@ body {
   justify-content: center;
   text-align: center;
 
-  height: 100vh;
   width: 100vw;
+  height: 60vh;
 
   position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
 
   background-color: white;
 
@@ -44,7 +49,7 @@ body {
   justify-content: space-around;
   align-items: center;
 
-  height: 50vh;
+  height: 60vh;
 }
 
 /* prompt */
