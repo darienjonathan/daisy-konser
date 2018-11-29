@@ -13,7 +13,7 @@ body {
   width: 100%;
   height: 100%;
   z-index: -1;
-  background-image: url('../img/bg_icon.JPG');
+  background-image: url('../img/bg_icon.jpg');
   background-repeat: repeat;
   background-size: 55px 55px;
 }
