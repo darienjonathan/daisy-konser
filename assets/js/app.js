@@ -12,7 +12,12 @@ $(document).ready(() => {
 
 const promptClick = () => {
   $(".wrapper").removeClass("wrapper--pre-click").addClass("wrapper--post-click");
-  $(".content__video").get().forEach(vid => vid.play());
+  $(".content__video").get().forEach(vid => {
+    let foo = vid.play();
+    foo
+    .then(res => console.log(res))
+    .catch(err => console.log(err));
+  });
   $(".box--prompt-button").addClass("fadeOut");
   setTimeout(() => $(".box--prompt-scroll").addClass("fadeIn"), 500);
 };
