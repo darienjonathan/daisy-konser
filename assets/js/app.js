@@ -4,7 +4,7 @@ $(document).ready(() => {
   $(window).on("load", () => {
     $(".loading").addClass("fadeOut");
     setTimeout(() => $(".wrapper").addClass("fadeIn"), 500);
-    $(".content__video").prop('volume', 0);
+    $(".content__video").get().forEach(vid => vid.volume = 0);
     $(".prompt-button").on('click', promptClick);
     $(window).on('scroll', _.throttle(scroll, 25));
   });
