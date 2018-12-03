@@ -51,6 +51,7 @@ const scroll = () => {
     : videoVolume;
 
   $(".content__video").get().forEach(vid => vid.volume = videoVolume);
+  $(".content__video").get().forEach(vid => console.log(vid.volume));
 
   console.log({ yPos, videoVolume });
 }
