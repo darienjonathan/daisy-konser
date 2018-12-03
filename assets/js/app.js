@@ -12,7 +12,7 @@ $(document).ready(() => {
 
 const promptClick = () => {
   $(".wrapper").removeClass("wrapper--pre-click").addClass("wrapper--post-click");
-  $(".content__video").get().forEach(vid => vid.muted = false);
+  $(".content__video").get().forEach(vid => vid.play());
   $(".box--prompt-button").addClass("fadeOut");
   setTimeout(() => $(".box--prompt-scroll").addClass("fadeIn"), 500);
 };
@@ -50,7 +50,7 @@ const scroll = () => {
     ? 0.5
     : videoVolume;
 
-  $(".content__video").prop('volume', videoVolume);
+  $(".content__video").get().forEach(vid => vid.volume = videoVolume);
 
   console.log({ yPos, videoVolume });
 }
