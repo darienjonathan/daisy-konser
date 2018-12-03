@@ -1,14 +1,20 @@
-$(document).ready(function(){
-  $(".content__video").prop('volume', 0);
-  $(".prompt-button").on('click', promptClick);
-  $(window).on('scroll', _.throttle(scroll, 25));
-})
+
+
+$(document).ready(() => {
+  $(window).on("load", () => {
+    $(".loading").addClass("fadeOut");
+    setTimeout(() => $(".wrapper").addClass("fadeIn"), 500);
+    $(".content__video").prop('volume', 0);
+    $(".prompt-button").on('click', promptClick);
+    $(window).on('scroll', _.throttle(scroll, 25));
+  });
+});
 
 const promptClick = () => {
   $(".wrapper").removeClass("wrapper--pre-click").addClass("wrapper--post-click");
   $(".content__video").get().forEach(vid => vid.muted = false);
-  $(".box--prompt-button").addClass("prompt--fadeOut");
-  setTimeout(() => $(".box--prompt-scroll").addClass("prompt--fadeIn"), 500);
+  $(".box--prompt-button").addClass("fadeOut");
+  setTimeout(() => $(".box--prompt-scroll").addClass("fadeIn"), 500);
 };
 
 const scroll = () => {
