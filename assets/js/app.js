@@ -32,6 +32,7 @@ const loadSound = () => {
 
   let source = context.createBufferSource();
   source.buffer = audioBuffer;
+  source.connect(context.destination);
   return source;
 }
 
