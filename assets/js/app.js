@@ -32,6 +32,11 @@ const loadSound = () => {
 
   let source = context.createBufferSource();
   source.buffer = audioBuffer;
+
+  let gainNode = context.createGain();
+  gainNode.gain.value = 1;
+  gainNode.connect(context.destination);
+
   source.connect(context.destination);
   return source;
 }
