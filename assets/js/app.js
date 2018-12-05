@@ -6,9 +6,34 @@ $(document).ready(() => {
     setTimeout(() => $(".wrapper").addClass("fadeIn"), 500);
     $(".content__video").get().forEach(vid => vid.volume = 0);
     $(".prompt-button").on('click', promptClick);
+
+    const source = loadSound();
+    source.start(0);
+
     $(window).on('scroll', _.throttle(scroll, 25));
   });
 });
+
+
+const loadSound = () => {
+  let audioBuffer = null;
+  window.AudioContext = window.AudioContext || window.webkitAudioContext;
+  let context = new AudioContext();
+  
+  let req = new XMLHttpRequest();
+  req.open('GET', '../audio/audio.mp3', true);
+  req.responseType = 'arraybuffer';
+  req.onload = () => {
+    context.decodeAudioData(req.response, buffer => {
+      audioBuffer = buffer;
+    }, onError);
+  };
+  req.send();
+
+  let source = context.createBufferSource();
+  source.buffer = audioBuffer;
+  return source;
+}
 
 const promptClick = () => {
   $(".wrapper").removeClass("wrapper--pre-click").addClass("wrapper--post-click");
