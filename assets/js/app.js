@@ -26,7 +26,7 @@ const loadSound = () => {
   req.onload = () => {
     context.decodeAudioData(req.response, buffer => {
       audioBuffer = buffer;
-    }, onError);
+    });
   };
   req.send();
 
