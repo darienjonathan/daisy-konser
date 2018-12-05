@@ -21,7 +21,7 @@ const loadSound = () => {
   let context = new AudioContext();
   
   let req = new XMLHttpRequest();
-  req.open('GET', '../audio/audio.mp3', true);
+  req.open('GET', './assets/audio/audio.mp3', true);
   req.responseType = 'arraybuffer';
   req.onload = () => {
     context.decodeAudioData(req.response, buffer => {
