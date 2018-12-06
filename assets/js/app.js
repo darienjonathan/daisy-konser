@@ -24,12 +24,13 @@ const elementPosition = {
 const yPos = () => window.pageYOffset/window.innerHeight;
 
 const calc = {
-  // op = -(y - k)((y - k) - 2) dimana op = 1 (opacityMax) terjadi pada y = (k + k + 2)/2 = k + 1. Untuk mencapai opacityMax pada k, maka op = -(y - (k - 1))(y - (k - 1) - 2).
-  // agar op = 1 tercapai lebih cepat, maka f(y) dibagi dengan bilangan positif < 1. 
+  // opacity = f(yPos) = -(yPos - k)((yPos - k) - 2) // dimana opacity = 1 (opacityMax) terjadi pada yPos = (k + k + 2)/2 = k + 1.
+  // Untuk mencapai opacityMax pada k, maka opacity = -(yPos - (k - 1))(yPos - (k - 1) - 2).
+  // agar opacityMax tercapai lebih cepat, maka f(yPos) dibagi dengan bilangan positif < 1. 
   opacity: maxOpacityPos => -1*(yPos() - (maxOpacityPos - 1))*(yPos() - (maxOpacityPos - 1) - 2)/0.7,
   // volume = f(yPos)
   // 0 <= yPos <= maxVolumePos  -> Linear dari 0 sampe maxVolumePos
-  // yPos > maxVolumePos        -> dari maxVolume turun ke minVolume di minVolumePos, kemudian naik lagi
+  // yPos > maxVolumePos        -> dari maxVolume turun ke minVolume di minVolumePos, kemudian naik lagi secara linear (gunakan fungsi absolut)
   volume: (maxVolumePos, minVolumePos) => {
     const { maxVolume, minVolume } = config.volume;
     let volume = yPos() <= maxVolumePos
