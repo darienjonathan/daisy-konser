@@ -62,36 +62,50 @@ const loadSound = () => {
       gainNode.gain.value = 0;
       gainNode.connect(context.destination);
       source.connect(gainNode);
-      source.start(0);
 
-      enableScroll();
-      $(window).on('scroll', _.throttle(() => {
-        controlGain(source, gainNode);
-        controlOpacity();
-      }, 25));
+      removeLoadingElement();
+      $(".prompt-button").on('click', () => promptScroll({ source, gainNode }));
     
     }, function(err){
       console.log(`Error: ${err}`);
     });
   };
   req.onerror = err => {
-    enableScroll();
-    $(window).on('scroll', _.throttle(controlOpacity, 25))
+    removeLoadingElement();
+    $(".prompt-button").on('click', () => promptScroll({ source, gainNode }));
   };
   req.send();
 }
 
-const enableScroll = () => {
-  $(".wrapper").removeClass("wrapper--pre-click").addClass("wrapper--post-click");
-  $(".content__video").get().forEach(vid => vid.play());
-  $(".box--prompt-button").addClass("fadeOut");
-  setTimeout(() => $(".box--prompt-scroll").addClass("fadeIn"), 500);
+const removeLoadingElement = () => {
+  $(".loading").addClass("fadeOut");
+  setTimeout(() => $(".wrapper").addClass("fadeIn"), 500);
 };
 
-$(document).ready(() => {
-  $(window).on("load", () => {
-    $(".loading").addClass("fadeOut");
-    setTimeout(() => $(".wrapper").addClass("fadeIn"), 500);
-    $(".prompt-button").on('click', loadSound);
-  });
-});
+const promptScroll = ({ source, gainNode }) => {
+  // start playing medias
+  $(".content__video").get().forEach(vid => vid.play());
+  if(source) source.start(0);
+
+  // prepare scroll elements
+  $(".wrapper").removeClass("wrapper--pre-click").addClass("wrapper--post-click");
+  $(".box--prompt-button").addClass("fadeOut");
+  setTimeout(() => $(".box--prompt-scroll").addClass("fadeIn"), 500);
+
+  // prepare scroll event
+  $(window).on('scroll', _.throttle(() => {
+    if(source) controlGain(source, gainNode);
+    controlOpacity();
+  }, 25));
+};
+
+// $(document).ready(() => {
+//   $(window).on("load", () => {
+//     $(".loading").addClass("fadeOut");
+//     setTimeout(() => $(".wrapper").addClass("fadeIn"), 500);
+//     $(".prompt-button").on('click', loadSound);
+//   });
+// });
+
+$(document).ready(() => $(window).on("load", loadSound));
+
