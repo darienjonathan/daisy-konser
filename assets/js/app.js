@@ -1,9 +1,15 @@
-const heightConfig = {
-  baseHeight: 3,
-  elementInterval: 2
-}
+const config = {
+  height: {
+    baseHeight: 3,
+    elementInterval: 2
+  },
+  volume: {
+    maxVolume: 1,
+    minVolume: 0.25
+  }
+};
 
-const { baseHeight, elementInterval } = heightConfig;
+const { baseHeight, elementInterval } = config.height;
 
 const elementPosition = {
   prompt: 0,
@@ -25,9 +31,7 @@ const calc = {
   // 0 <= yPos <= maxVolumePos  -> Linear dari 0 sampe maxVolumePos
   // yPos > maxVolumePos        -> dari maxVolume turun ke minVolume di minVolumePos, kemudian naik lagi
   volume: (maxVolumePos, minVolumePos) => {
-    const maxVolume = 1;
-    const minVolume = 0.25;
-    
+    const { maxVolume, minVolume } = config.volume;
     let volume = yPos() <= maxVolumePos
     ? yPos()/maxVolumePos
     : Math.abs((yPos() - minVolumePos)*(maxVolume - minVolume)/(maxVolumePos - minVolumePos)) + minVolume;
@@ -38,14 +42,10 @@ const calc = {
 }
 
 const controlOpacity = () => {
-  $(".box--prompt").css('opacity', calc.opacity(elementPosition.prompt));
-  $(".box--daisy").css('opacity', calc.opacity(elementPosition.daisy));
-  $(".box--video").css('opacity', calc.opacity(elementPosition.video));
-  $(".box--goodluck").css('opacity', calc.opacity(elementPosition.goodluck));
-  $(".box--pray").css('opacity', calc.opacity(elementPosition.pray));
-  $(".box--havefun").css('opacity', calc.opacity(elementPosition.havefun));
-  $(".box--closing").css('opacity', calc.opacity(elementPosition.closing));
-}
+  Object.keys(elementPosition).forEach(elName => {
+    $(`.box--${elName}`).css('opacity', calc.opacity(elementPosition[elName]))
+  });
+};
 
 const controlGain = (audioSource, gainNode) => {
   let audioVolume = calc.volume(elementPosition.video, elementPosition.pray);
@@ -73,23 +73,19 @@ const loadSound = () => {
       gainNode.connect(context.destination);
       source.connect(gainNode);
 
-      removeLoadingElement();
-      $(".prompt-button").on('click', () => promptScroll({ source, gainNode }));
-    
+      prepareContent(({ source, gainNode }));
     }, function(err){
       console.log(`Error: ${err}`);
     });
   };
-  req.onerror = err => {
-    removeLoadingElement();
-    $(".prompt-button").on('click', () => promptScroll({ source, gainNode }));
-  };
+  req.onerror = () => prepareContent(({ source, gainNode }));
   req.send();
 }
 
-const removeLoadingElement = () => {
+const prepareContent = ({ source, gainNode }) => {
   $(".loading").addClass("fadeOut");
   setTimeout(() => $(".wrapper").addClass("fadeIn"), 500);
+  $(".prompt-button").on('click', () => promptScroll({ source, gainNode }));
 };
 
 const promptScroll = ({ source, gainNode }) => {
@@ -104,7 +100,7 @@ const promptScroll = ({ source, gainNode }) => {
 
   // prepare scroll event
   $(window).on('scroll', _.throttle(() => {
-    if(source) controlGain(source, gainNode);
+    if(source && gainNode) controlGain(source, gainNode);
     controlOpacity();
   }, 25));
 };
