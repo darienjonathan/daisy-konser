@@ -26,10 +26,11 @@ const loadSound = () => {
   req.onload = function(){
     context.decodeAudioData(req.response, function(buffer){
       source.buffer = buffer;
-      gainNode.gain.value = 1;
+      gainNode.gain.value = 0;
       gainNode.connect(context.destination);
       source.connect(context.destination);
       source.start(0);
+      $(window).on('scroll', _.throttle(() => controlGain(gainNode), 25));
     }, function(err){
       console.log(`Error: ${err}`);
     });
@@ -74,17 +75,35 @@ const scroll = () => {
   $(".box--havefun").css('opacity', elementOpacity.havefun);
   $(".box--closing").css('opacity', elementOpacity.closing);
 
-  const videoMaxVolume = baseHeightMultiplier + elementInterval + 1;
-  let videoVolume = ((yPos - videoMaxVolume*height)/videoMaxVolume + height)/(2*height);
-  videoVolume =
-    videoVolume < 0
-    ? 0
-    : videoVolume > 0.5
-    ? 0.5
-    : videoVolume;
+  // const videoMaxVolume = baseHeightMultiplier + elementInterval + 1;
+  // let videoVolume = ((yPos - videoMaxVolume*height)/videoMaxVolume + height)/(2*height);
+  // videoVolume =
+  //   videoVolume < 0
+  //   ? 0
+  //   : videoVolume > 0.5
+  //   ? 0.5
+  //   : videoVolume;
 
-  $(".content__video").get().forEach(vid => vid.volume = videoVolume);
-  $(".content__video").get().forEach(vid => console.log(vid.volume));
+  // $(".content__video").get().forEach(vid => vid.volume = videoVolume);
+  // $(".content__video").get().forEach(vid => console.log(vid.volume));
 
   console.log({ yPos, videoVolume });
+}
+
+const controlGain = gainNode => {
+  const baseHeightMultiplier = 3;
+  const elementInterval = 2;
+  const yPos = window.pageYOffset;
+  const height = window.innerHeight;
+
+  const audioMaxVolume = baseHeightMultiplier + elementInterval + 1;
+  let audioVolume = ((yPos - audioMaxVolume*height)/audioMaxVolume + height)/(2*height);
+  audioVolume =
+    audioVolume < 0
+    ? 0
+    : audioVolume > 1
+    ? 1
+    : audioVolume;
+
+  gainNode.gain.value = audioVolume;
 }
