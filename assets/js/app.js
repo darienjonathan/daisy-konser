@@ -5,7 +5,7 @@ const config = {
   },
   volume: {
     maxVolume: 1,
-    minVolume: 0.25
+    minVolume: 0.1
   }
 };
 
