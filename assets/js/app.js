@@ -8,9 +8,8 @@ $(document).ready(() => {
     $(".prompt-button").on('click', promptClick);
 
     const source = loadSound();
-    source.start(0);
 
-    $(window).on('scroll', _.throttle(scroll, 25));
+    $(window).on('scroll', _.throttle(scroll(source), 25));
   });
 });
 
@@ -53,7 +52,9 @@ const promptClick = () => {
   setTimeout(() => $(".box--prompt-scroll").addClass("fadeIn"), 500);
 };
 
-const scroll = () => {
+const scroll = source => {
+  source.start(0);
+  
   const baseHeightMultiplier = 3;
   const elementInterval = 2;
   const yPos = window.pageYOffset;
