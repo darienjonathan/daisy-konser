@@ -6,42 +6,39 @@ $(document).ready(() => {
     setTimeout(() => $(".wrapper").addClass("fadeIn"), 500);
     $(".content__video").get().forEach(vid => vid.volume = 0);
 
-    const soundSource = loadSound();
-    $(".prompt-button").on('click', () => promptClick(soundSource));
-
+    $(".prompt-button").on('click', promptClick);
     $(window).on('scroll', _.throttle(scroll, 25));
   });
 });
 
 
 const loadSound = () => {
-  let audioBuffer = null;
-  window.AudioContext = window.AudioContext || window.webkitAudioContext;
-  let context = new AudioContext();
+  var context = 'AudioContext' in window
+  ? new AudioContext()
+  : new webkitAudioContext();
+
+  var source = context.createBufferSource();
+  var gainNode = context.createGain();
   
-  let req = new XMLHttpRequest();
-  req.open('GET', './assets/audio/audio.mp3', true);
+  var req = new XMLHttpRequest();
+  req.open('GET', 'assets/audio/audio.mp3', true);
   req.responseType = 'arraybuffer';
-  req.onload = () => {
-    context.decodeAudioData(req.response, buffer => {
-      audioBuffer = buffer;
+  req.onload = function(){
+    context.decodeAudioData(req.response, function(buffer){
+      source.buffer = buffer;
+      gainNode.gain.value = 1;
+      gainNode.connect(context.destination);
+      source.connect(context.destination);
+      source.start(0);
+    }, function(err){
+      console.log(`Error: ${err}`);
     });
   };
   req.send();
-
-  let source = context.createBufferSource();
-  source.buffer = audioBuffer;
-
-  let gainNode = context.createGain();
-  gainNode.gain.value = 1;
-  gainNode.connect(context.destination);
-
-  source.connect(context.destination);
-  return source;
 }
 
-const promptClick = soundSource => {
-  soundSource.start(0);
+const promptClick = () => {
+  loadSound();
   $(".wrapper").removeClass("wrapper--pre-click").addClass("wrapper--post-click");
   $(".content__video").get().forEach(vid => {
     let foo = vid.play();
