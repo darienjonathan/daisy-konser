@@ -42,8 +42,7 @@ const controlGain = (audioSource, gainNode) => {
   gainNode.gain.value = audioVolume;
   audioSource.connect(gainNode);
 
-  console.log(gainNode);
-  console.log({ yPos, audioVolume });
+  console.log({ yPos: window.pageYOffset, audioVolume });
 };
 
 const loadSound = () => {
@@ -64,15 +63,13 @@ const loadSound = () => {
       gainNode.connect(context.destination);
       source.connect(gainNode);
       source.start(0);
-      $(window).on('scroll', _.throttle(() => {
-        controlGain(source, gainNode);
-        controlOpacity();
-      }, 25));
+
+      $(".prompt-button").on('click', promptClick);
     }, function(err){
       console.log(`Error: ${err}`);
     });
   };
-  req.onerror = err => $(window).on('scroll', _.throttle(controlOpacity, 25));
+  req.onerror = err => $(".prompt-button").on('click', promptClick);
   req.send();
 }
 
@@ -82,14 +79,18 @@ const promptClick = () => {
   $(".box--prompt-button").addClass("fadeOut");
   setTimeout(() => $(".box--prompt-scroll").addClass("fadeIn"), 500);
 
-  loadSound();
+  $(window).on('scroll', _.throttle(() => {
+    controlGain(source, gainNode);
+    controlOpacity();
+  }, 25));
 };
 
 $(document).ready(() => {
-  $(window).on("load", () => {
-    $(".loading").addClass("fadeOut");
-    setTimeout(() => $(".wrapper").addClass("fadeIn"), 500);
+  $(window).on("load", () => loadSound());
+  // $(window).on("load", () => {
+  //   $(".loading").addClass("fadeOut");
+  //   setTimeout(() => $(".wrapper").addClass("fadeIn"), 500);
 
-    $(".prompt-button").on('click', promptClick);
-  });
+  //   $(".prompt-button").on('click', promptClick);
+  // });
 });
