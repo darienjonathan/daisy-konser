@@ -87,7 +87,7 @@ const scroll = () => {
   // $(".content__video").get().forEach(vid => vid.volume = videoVolume);
   // $(".content__video").get().forEach(vid => console.log(vid.volume));
 
-  console.log({ yPos, videoVolume });
+  // console.log({ yPos, videoVolume });
 }
 
 const controlGain = gainNode => {
@@ -106,4 +106,7 @@ const controlGain = gainNode => {
     : audioVolume;
 
   gainNode.gain.value = audioVolume;
+
+  console.log(gainNode);
+  console.log({ yPos, audioVolume });
 }
