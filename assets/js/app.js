@@ -24,8 +24,9 @@ const calc = {
   // volume = f(yPos)
   // 0 <= yPos <= maxVolumePos  -> Linear dari 0 sampe maxVolumePos
   // yPos > maxVolumePos        -> dari maxVolume turun ke minVolume di minVolumePos, kemudian naik lagi
-  volume: (maxVolumePos, minVolumePos, minVolume) => {
+  volume: (maxVolumePos, minVolumePos) => {
     const maxVolume = 1;
+    const minVolume = 0.25;
     
     let volume = yPos() <= maxVolumePos
     ? yPos()/maxVolumePos
