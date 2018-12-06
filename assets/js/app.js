@@ -28,9 +28,9 @@ const loadSound = () => {
       source.buffer = buffer;
       gainNode.gain.value = 0;
       gainNode.connect(context.destination);
-      source.connect(context.destination);
+      source.connect(gainNode);
       source.start(0);
-      $(window).on('scroll', _.throttle(() => controlGain(gainNode), 25));
+      $(window).on('scroll', _.throttle(() => controlGain(source, gainNode), 25));
     }, function(err){
       console.log(`Error: ${err}`);
     });
@@ -90,7 +90,7 @@ const scroll = () => {
   // console.log({ yPos, videoVolume });
 }
 
-const controlGain = gainNode => {
+const controlGain = (source,gainNode) => {
   const baseHeightMultiplier = 3;
   const elementInterval = 2;
   const yPos = window.pageYOffset;
@@ -106,6 +106,7 @@ const controlGain = gainNode => {
     : audioVolume;
 
   gainNode.gain.value = audioVolume;
+  source.connect(gainNode);
 
   console.log(gainNode);
   console.log({ yPos, audioVolume });
