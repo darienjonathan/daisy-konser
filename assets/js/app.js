@@ -5,11 +5,11 @@ $(document).ready(() => {
     $(".loading").addClass("fadeOut");
     setTimeout(() => $(".wrapper").addClass("fadeIn"), 500);
     $(".content__video").get().forEach(vid => vid.volume = 0);
-    $(".prompt-button").on('click', promptClick);
 
     const soundSource = loadSound();
+    $(".prompt-button").on('click', () => promptClick(soundSource));
 
-    $(window).on('scroll', _.throttle(() => scroll(soundSource), 25));
+    $(window).on('scroll', _.throttle(scroll, 25));
   });
 });
 
@@ -40,7 +40,8 @@ const loadSound = () => {
   return source;
 }
 
-const promptClick = () => {
+const promptClick = soundSource => {
+  soundSource.start(0);
   $(".wrapper").removeClass("wrapper--pre-click").addClass("wrapper--post-click");
   $(".content__video").get().forEach(vid => {
     let foo = vid.play();
@@ -52,9 +53,7 @@ const promptClick = () => {
   setTimeout(() => $(".box--prompt-scroll").addClass("fadeIn"), 500);
 };
 
-const scroll = soundSource => {
-  soundSource.start(0);
-  
+const scroll = () => {
   const baseHeightMultiplier = 3;
   const elementInterval = 2;
   const yPos = window.pageYOffset;
