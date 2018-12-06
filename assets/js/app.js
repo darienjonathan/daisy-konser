@@ -7,9 +7,9 @@ $(document).ready(() => {
     $(".content__video").get().forEach(vid => vid.volume = 0);
     $(".prompt-button").on('click', promptClick);
 
-    const source = loadSound();
+    const soundSource = loadSound();
 
-    $(window).on('scroll', _.throttle(scroll(source), 25));
+    $(window).on('scroll', _.throttle(() => scroll(soundSource), 25));
   });
 });
 
@@ -52,8 +52,8 @@ const promptClick = () => {
   setTimeout(() => $(".box--prompt-scroll").addClass("fadeIn"), 500);
 };
 
-const scroll = source => {
-  source.start(0);
+const scroll = soundSource => {
+  soundSource.start(0);
   
   const baseHeightMultiplier = 3;
   const elementInterval = 2;
