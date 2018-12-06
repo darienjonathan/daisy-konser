@@ -3,6 +3,8 @@ body {
   margin: 0;
   font-weight: bold;
   color: rgb(88, 226, 222);
+
+  font-size: 1.45rem;
 }
 
 /* loading */
@@ -59,8 +61,6 @@ body {
 
   opacity: 0;
   transition: opacity 0.5s linear;
-
-  font-size: 1.1rem;
 }
 
 .box__content {
@@ -84,9 +84,12 @@ body {
 }
 
 .prompt-button {
-  color: blue;
+  color: rgb(88, 226, 222);
   border: 1px solid rgb(88, 226, 222);
   cursor: crosshair;
+  background: none;
+  font-size: 1.1rem;
+  padding: 10px;
 }
 
 .fadeOut {
@@ -108,5 +111,5 @@ body {
   width: 300px;
 }
 .content__kanji {
-  font-size: 1rem;
+  font-size: 1.2rem;
 }
