@@ -64,33 +64,34 @@ const loadSound = () => {
       source.connect(gainNode);
       source.start(0);
 
-      $(".prompt-button").on('click', promptClick);
+      enableScroll();
+      $(window).on('scroll', _.throttle(() => {
+        controlGain(source, gainNode);
+        controlOpacity();
+      }, 25));
+    
     }, function(err){
       console.log(`Error: ${err}`);
     });
   };
-  req.onerror = err => $(".prompt-button").on('click', promptClick);
+  req.onerror = err => {
+    enableScroll();
+    $(window).on('scroll', _.throttle(controlOpacity, 25))
+  };
   req.send();
 }
 
-const promptClick = () => {
+const enableScroll = () => {
   $(".wrapper").removeClass("wrapper--pre-click").addClass("wrapper--post-click");
   $(".content__video").get().forEach(vid => vid.play());
   $(".box--prompt-button").addClass("fadeOut");
   setTimeout(() => $(".box--prompt-scroll").addClass("fadeIn"), 500);
-
-  $(window).on('scroll', _.throttle(() => {
-    controlGain(source, gainNode);
-    controlOpacity();
-  }, 25));
 };
 
 $(document).ready(() => {
-  $(window).on("load", () => loadSound());
-  // $(window).on("load", () => {
-  //   $(".loading").addClass("fadeOut");
-  //   setTimeout(() => $(".wrapper").addClass("fadeIn"), 500);
-
-  //   $(".prompt-button").on('click', promptClick);
-  // });
+  $(window).on("load", () => {
+    $(".loading").addClass("fadeOut");
+    setTimeout(() => $(".wrapper").addClass("fadeIn"), 500);
+    $(".prompt-button").on('click', loadSound);
+  });
 });
