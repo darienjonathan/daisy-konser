@@ -15,14 +15,23 @@ const elementPosition = {
   closing: baseHeight + 5*elementInterval,
 };
 
+const yPos = () => window.pageYOffset/window.innerHeight;
+
 const calc = {
   // op = -(y - k)((y - k) - 2) dimana op = 1 (opacityMax) terjadi pada y = (k + k + 2)/2 = k + 1. Untuk mencapai opacityMax pada k, maka op = -(y - (k - 1))(y - (k - 1) - 2).
   // agar op = 1 tercapai lebih cepat, maka f(y) dibagi dengan bilangan positif < 1. 
-  opacity: maxOpacityPos => -1*(window.pageYOffset/window.innerHeight - (maxOpacityPos - 1))*(window.pageYOffset/window.innerHeight - (maxOpacityPos - 1) - 2)/0.7,
-  // vol = (y - k)/k + 1 dimana vol = 1 (max) pada y = k. 
-  volume: maxVolumePos => {
-    let volume = ((window.pageYOffset/window.innerHeight - maxVolumePos)/maxVolumePos + 1);
-    volume = volume < 0 ? 0 : volume > 1 ? 1 : volume;
+  opacity: maxOpacityPos => -1*(yPos() - (maxOpacityPos - 1))*(yPos() - (maxOpacityPos - 1) - 2)/0.7,
+  // volume = f(yPos)
+  // 0 <= yPos <= maxVolumePos  -> Linear dari 0 sampe maxVolumePos
+  // yPos > maxVolumePos        -> dari maxVolume turun ke minVolume di minVolumePos, kemudian naik lagi
+  volume: (maxVolumePos, minVolumePos, minVolume) => {
+    const maxVolume = 1;
+    
+    let volume = yPos() <= maxVolumePos
+    ? yPos()/maxVolumePos
+    : Math.abs((yPos() - minVolumePos)*(maxVolume - minVolume)/(maxVolumePos - minVolumePos)) + minVolume;
+
+    volume = volume < 0 ? 0 : volume > maxVolume ? maxVolume : volume;
     return volume;
   }
 }
@@ -38,7 +47,7 @@ const controlOpacity = () => {
 }
 
 const controlGain = (audioSource, gainNode) => {
-  let audioVolume = calc.volume(elementPosition.video);
+  let audioVolume = calc.volume(elementPosition.video, elementPosition.pray);
   gainNode.gain.value = audioVolume;
   audioSource.connect(gainNode);
 
@@ -99,13 +108,4 @@ const promptScroll = ({ source, gainNode }) => {
   }, 25));
 };
 
-// $(document).ready(() => {
-//   $(window).on("load", () => {
-//     $(".loading").addClass("fadeOut");
-//     setTimeout(() => $(".wrapper").addClass("fadeIn"), 500);
-//     $(".prompt-button").on('click', loadSound);
-//   });
-// });
-
 $(document).ready(() => $(window).on("load", loadSound));
-
