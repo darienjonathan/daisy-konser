@@ -110,6 +110,11 @@ body {
 .content__video {
   width: 300px;
 }
-.content__kanji {
+
+.content__text {
+  padding: 1px 10px;
+}
+.content__text--kanji {
   font-size: 1.2rem;
+  border-right: 2px solid rgb(88, 226, 222);
 }
