@@ -4,11 +4,12 @@ const frame = 16;
 
 $(document).ready(() => {
   $(window).on("load", () => {
+    $(".wrapper").addClass("fade-in");
     const now = new Date().getTime();
-    if(now < birthdayTime) {
+    if(now > birthdayTime) {
       $(".loading").addClass("fade-out");
       $(".prompt").addClass("fade-in");
-      $(".prompt-button").addClass("fade-in");
+      $(".prompt-play").addClass("fade-in");
       $(".prompt-button").on('click', () => {
         $(".prompt").addClass("fade-out");
         setTimeout(() => {
