@@ -2,7 +2,7 @@
 body {
   margin: 0;
   font-weight: bold;
-  color: black;
+  color: rgb(80, 200, 200);
   text-align: center;
 
   font-size: 1.45rem;
@@ -70,4 +70,8 @@ body {
 .fade-out {
   opacity: 0;
   z-index: 0;
+}
+
+.lyrics__pipe {
+  color: black;
 }
