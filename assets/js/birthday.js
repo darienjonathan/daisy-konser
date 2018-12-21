@@ -45,7 +45,7 @@ const prepareContent = () => {
   var gainNode = context.createGain();
   
   var req = new XMLHttpRequest();
-  req.open('GET', 'assets/audio/birthday.mp3', true);
+  req.open('GET', 'assets/audio/audio.mp3', true);
   req.responseType = 'arraybuffer';
   req.onload = function(){
     console.log("request loaded");
