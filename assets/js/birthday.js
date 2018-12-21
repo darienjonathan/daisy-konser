@@ -1,4 +1,5 @@
-const birthdayTime = 1545411600000;
+// const birthdayTime = 1545411600000;
+const birthdayTime = 1545364244078;
 const tempo = 74;
 const frame = 16;
 
