@@ -25,7 +25,7 @@ $(document).ready(() => {
             $(".lyrics").removeClass("fade-in");
             $(".greeting").addClass("fade-in");
           })
-        }, 1000*(4/tempo*60))
+        }, 1000*(3/tempo*60))
       })
     } else {
       $(".loading").addClass("fade-out");
