@@ -2,36 +2,65 @@
 const birthdayTime = 1545364244078;
 const tempo = 74;
 const frame = 16;
+const audioDuration = 133;
 
-$(document).ready(() => {
-  $(window).on("load", () => {
-    $(".wrapper").addClass("fade-in");
-    const now = new Date().getTime();
-    if(now > birthdayTime) {
-      $(".loading").addClass("fade-out");
-      $(".prompt").addClass("fade-in");
-      $(".prompt-play").addClass("fade-in");
-      $(".prompt-button").on('click', () => {
-        $(".prompt").addClass("fade-out");
+$(document).ready(() => $(window).on("load", prepareContent));
+
+const prepareContent = () => {
+  var context = 'AudioContext' in window
+  ? new AudioContext()
+  : new webkitAudioContext();
+
+  var source = context.createBufferSource();
+  var gainNode = context.createGain();
+  
+  var req = new XMLHttpRequest();
+  req.open('GET', 'assets/audio/birthday.mp3', true);
+  req.responseType = 'arraybuffer';
+  req.onload = function(){
+    context.decodeAudioData(req.response, function(buffer){
+      source.buffer = buffer;
+      source.connect(context.destination);
+      $(".wrapper").addClass("fade-in");
+      const now = new Date().getTime();
+      if(now > birthdayTime) {
+        play(source);
+      } else {
+        wait();
+      }
+    }, function(err){
+      console.log(`Error: ${err}`);
+    });
+  };
+  req.onerror = () => prepareContent(({ source, gainNode }));
+  req.send();
+}
+
+const play = source => {
+  $(".loading").addClass("fade-out");
+  $(".prompt").addClass("fade-in");
+  $(".prompt-play").addClass("fade-in");
+  $(".prompt-button").on('click', () => {
+    $(".prompt").addClass("fade-out");
+    setTimeout(() => {
+      source.start(0);
+      $(".lyrics").each((index, el) => {
         setTimeout(() => {
-          $(".audio")[0].play();
-          $(".lyrics").each((index, el) => {
-            setTimeout(() => {
-              $(el).siblings().removeClass("fade-in");
-              setTimeout(() => $(el).addClass("fade-in"), 1000);
-            }, 1000*((frame/tempo*60)*index - 1.75))
-          })
-          $(".audio").on("ended", () => {
-            console.log("audio ended");
-            $(".lyrics").removeClass("fade-in");
-            $(".greeting").addClass("fade-in");
-          })
-        }, 1000*(3/tempo*60))
+          $(el).siblings().removeClass("fade-in");
+          setTimeout(() => $(el).addClass("fade-in"), 1000);
+        }, 1000*((frame/tempo*60)*index - 1.75))
       })
-    } else {
-      $(".loading").addClass("fade-out");
-      $(".prompt").addClass("fade-in");
-      $(".prompt-wait").addClass("fade-in");
-    }
+      setTimeout(() => {
+        console.log("audio ended");
+        $(".lyrics").removeClass("fade-in");
+        $(".greeting").addClass("fade-in");
+      }, 1000*audioDuration);
+    }, 1000*(3/tempo*60))
   })
-});
+};
+
+const wait = () => {
+  $(".loading").addClass("fade-out");
+  $(".prompt").addClass("fade-in");
+  $(".prompt-wait").addClass("fade-in");
+};
