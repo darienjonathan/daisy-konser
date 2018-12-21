@@ -4,7 +4,7 @@ const tempo = 74;
 const frame = 16;
 const audioDuration = 133;
 
-const play = source => {
+const play = (source, gainNode) => {
   $(".loading").addClass("fade-out");
   $(".prompt").addClass("fade-in");
   $(".prompt-play").addClass("fade-in");
@@ -14,6 +14,7 @@ const play = source => {
       source.start(0);
       $(".lyrics").each((index, el) => {
         setTimeout(() => {
+          console.log(gainNode.gain.value);
           $(el).siblings().removeClass("fade-in");
           setTimeout(() => $(el).addClass("fade-in"), 1000);
         }, 1000*((frame/tempo*60)*index - 1.75))
@@ -58,7 +59,7 @@ const prepareContent = () => {
       console.log({ now, birthdayTime });
       if(now > birthdayTime) {
         console.log("play");
-        play(source);
+        play(source, gainNode);
       } else {
         wait();
       }
