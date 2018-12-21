@@ -4,10 +4,34 @@ const tempo = 74;
 const frame = 16;
 const audioDuration = 133;
 
-$(document).ready(() => {
-  console.log("document ready");
-  $(window).on("load", prepareContent)
-});
+const play = source => {
+  $(".loading").addClass("fade-out");
+  $(".prompt").addClass("fade-in");
+  $(".prompt-play").addClass("fade-in");
+  $(".prompt-button").on('click', () => {
+    $(".prompt").addClass("fade-out");
+    setTimeout(() => {
+      source.start(0);
+      $(".lyrics").each((index, el) => {
+        setTimeout(() => {
+          $(el).siblings().removeClass("fade-in");
+          setTimeout(() => $(el).addClass("fade-in"), 1000);
+        }, 1000*((frame/tempo*60)*index - 1.75))
+      })
+      setTimeout(() => {
+        console.log("audio ended");
+        $(".lyrics").removeClass("fade-in");
+        $(".greeting").addClass("fade-in");
+      }, 1000*audioDuration);
+    }, 1000*(3/tempo*60))
+  })
+};
+
+const wait = () => {
+  $(".loading").addClass("fade-out");
+  $(".prompt").addClass("fade-in");
+  $(".prompt-wait").addClass("fade-in");
+};
 
 const prepareContent = () => {
   console.log("window loaded");
@@ -44,31 +68,4 @@ const prepareContent = () => {
   req.send();
 }
 
-const play = source => {
-  $(".loading").addClass("fade-out");
-  $(".prompt").addClass("fade-in");
-  $(".prompt-play").addClass("fade-in");
-  $(".prompt-button").on('click', () => {
-    $(".prompt").addClass("fade-out");
-    setTimeout(() => {
-      source.start(0);
-      $(".lyrics").each((index, el) => {
-        setTimeout(() => {
-          $(el).siblings().removeClass("fade-in");
-          setTimeout(() => $(el).addClass("fade-in"), 1000);
-        }, 1000*((frame/tempo*60)*index - 1.75))
-      })
-      setTimeout(() => {
-        console.log("audio ended");
-        $(".lyrics").removeClass("fade-in");
-        $(".greeting").addClass("fade-in");
-      }, 1000*audioDuration);
-    }, 1000*(3/tempo*60))
-  })
-};
-
-const wait = () => {
-  $(".loading").addClass("fade-out");
-  $(".prompt").addClass("fade-in");
-  $(".prompt-wait").addClass("fade-in");
-};
+$(document).ready(() => $(window).on("load", prepareContent));
