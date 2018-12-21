@@ -4,25 +4,28 @@ const frame = 16;
 
 $(document).ready(() => {
   $(window).on("load", () => {
+    $(".wrapper").addClass("fade-in");
     const now = new Date().getTime();
-    if(now < birthdayTime) {
+    if(now > birthdayTime) {
       $(".loading").addClass("fade-out");
       $(".prompt").addClass("fade-in");
-      $(".prompt-button").addClass("fade-in");
+      $(".prompt-play").addClass("fade-in");
       $(".prompt-button").on('click', () => {
-        $(".audio")[0].play();
         $(".prompt").addClass("fade-out");
-        $(".lyrics").each((index, el) => {
-          setTimeout(() => {
-            $(el).siblings().removeClass("fade-in");
-            setTimeout(() => $(el).addClass("fade-in"), 1000);
-          }, 1000*((frame/tempo*60)*index - 1.75))
-        })
-        $(".audio").on("ended", () => {
-          console.log("audio ended");
-          $(".lyrics").removeClass("fade-in");
-          $(".greeting").addClass("fade-in");
-        })
+        setTimeout(() => {
+          $(".audio")[0].play();
+          $(".lyrics").each((index, el) => {
+            setTimeout(() => {
+              $(el).siblings().removeClass("fade-in");
+              setTimeout(() => $(el).addClass("fade-in"), 1000);
+            }, 1000*((frame/tempo*60)*index - 1.75))
+          })
+          $(".audio").on("ended", () => {
+            console.log("audio ended");
+            $(".lyrics").removeClass("fade-in");
+            $(".greeting").addClass("fade-in");
+          })
+        }, 1000*(3/tempo*60))
       })
     } else {
       $(".loading").addClass("fade-out");
