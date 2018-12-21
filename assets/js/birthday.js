@@ -4,7 +4,10 @@ const tempo = 74;
 const frame = 16;
 const audioDuration = 133;
 
-$(document).ready(() => $(window).on("load", prepareContent));
+$(document).ready(() => {
+  console.log("document ready");
+  $(window).on("load", prepareContent)
+});
 
 const prepareContent = () => {
   console.log("window loaded");
