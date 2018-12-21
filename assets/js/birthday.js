@@ -12,9 +12,10 @@ const play = (source, gainNode) => {
     $(".prompt").addClass("fade-out");
     setTimeout(() => {
       source.start(0);
+      gainNode.gain.value = 1;
+      source.connect(gainNode);
       $(".lyrics").each((index, el) => {
         setTimeout(() => {
-          console.log(gainNode.gain.value);
           $(el).siblings().removeClass("fade-in");
           setTimeout(() => $(el).addClass("fade-in"), 1000);
         }, 1000*((frame/tempo*60)*index - 1.75))
