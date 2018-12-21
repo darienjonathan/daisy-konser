@@ -7,6 +7,7 @@ const audioDuration = 133;
 $(document).ready(() => $(window).on("load", prepareContent));
 
 const prepareContent = () => {
+  console.log("window loaded");
   var context = 'AudioContext' in window
   ? new AudioContext()
   : new webkitAudioContext();
@@ -18,12 +19,16 @@ const prepareContent = () => {
   req.open('GET', 'assets/audio/birthday.mp3', true);
   req.responseType = 'arraybuffer';
   req.onload = function(){
+    console.log("request loaded");
     context.decodeAudioData(req.response, function(buffer){
+      console.log("audio decoded");
       source.buffer = buffer;
       source.connect(context.destination);
       $(".wrapper").addClass("fade-in");
       const now = new Date().getTime();
+      console.log({ now, birthdayTime });
       if(now > birthdayTime) {
+        console.log("play");
         play(source);
       } else {
         wait();
