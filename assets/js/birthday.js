@@ -50,7 +50,9 @@ const prepareContent = () => {
     context.decodeAudioData(req.response, function(buffer){
       console.log("audio decoded");
       source.buffer = buffer;
-      source.connect(context.destination);
+      gainNode.gain.value = 1;
+      gainNode.connect(context.destination);
+      source.connect(gainNode);
       $(".wrapper").addClass("fade-in");
       const now = new Date().getTime();
       console.log({ now, birthdayTime });
