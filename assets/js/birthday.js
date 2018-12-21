@@ -70,4 +70,4 @@ const prepareContent = () => {
   req.send();
 }
 
-$(document).ready(() => $(window).on("load", prepareContent));
+$(document).ready(prepareContent);
