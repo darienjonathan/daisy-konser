@@ -1,5 +1,4 @@
-// const birthdayTime = 1545411600000;
-const birthdayTime = 1545364244078;
+const birthdayTime = 1545411600000;
 const tempo = 74;
 const frame = 16;
 const audioDuration = 133;
@@ -55,9 +54,7 @@ const loadSound = () => {
 
       $(".wrapper").addClass("fade-in");
       const now = new Date().getTime();
-      console.log({ now, birthdayTime });
       if(now > birthdayTime) {
-        console.log("play");
         play(source, gainNode);
       } else {
         wait();
