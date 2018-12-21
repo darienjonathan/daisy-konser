@@ -35,8 +35,7 @@ const wait = () => {
   $(".prompt-wait").addClass("fade-in");
 };
 
-const prepareContent = () => {
-  console.log("window loaded");
+const loadSound = () => {
   var context = 'AudioContext' in window
   ? new AudioContext()
   : new webkitAudioContext();
@@ -45,16 +44,15 @@ const prepareContent = () => {
   var gainNode = context.createGain();
   
   var req = new XMLHttpRequest();
-  req.open('GET', 'assets/audio/audio.mp3', true);
+  req.open('GET', 'assets/audio/birthday.mp3', true);
   req.responseType = 'arraybuffer';
   req.onload = function(){
-    console.log("request loaded");
     context.decodeAudioData(req.response, function(buffer){
-      console.log("audio decoded");
       source.buffer = buffer;
-      gainNode.gain.value = 1;
+      gainNode.gain.value = 0;
       gainNode.connect(context.destination);
       source.connect(gainNode);
+
       $(".wrapper").addClass("fade-in");
       const now = new Date().getTime();
       console.log({ now, birthdayTime });
@@ -68,8 +66,10 @@ const prepareContent = () => {
       console.log(`Error: ${err}`);
     });
   };
-  req.onerror = () => prepareContent(({ source, gainNode }));
+  req.onerror = () => console.log('error');
   req.send();
 }
 
-$(document).ready(prepareContent);
+$(document).ready(loadSound);
+
+
